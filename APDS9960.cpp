@@ -59,6 +59,9 @@ APDS9960::~APDS9960()
  */
 bool APDS9960::init()
 {
+	#if DEBUG
+	Serial.println("Init APDS...");
+	#endif
     uint8_t id;
 
     /* Initialize I2C */
@@ -66,105 +69,201 @@ bool APDS9960::init()
      
     /* Read ID register and check against known values for APDS-9960 */
     if( !wireReadDataByte(APDS9960_ID, id) ) {
+		#if DEBUG
+		Serial.println("Error: Read ID register");
+		#endif
         return false;
     }
     if( !(id == APDS9960_ID_1 || id == APDS9960_ID_2) ) {
+		#if DEBUG
+		Serial.println("Error: unknown ID");
+		#endif
         return false;
     }
      
     /* Set ENABLE register to 0 (disable all features) */
     if( !setMode(ALL, OFF) ) {
+		#if DEBUG
+		Serial.println("Error: disable all features");
+		#endif
         return false;
     }
     
     /* Set default values for ambient light and proximity registers */
     if( !wireWriteDataByte(APDS9960_ATIME, DEFAULT_ATIME) ) {
+		#if DEBUG
+		Serial.println("Error: write defaults for proximity & ambilight");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_WTIME, DEFAULT_WTIME) ) {
+		#if DEBUG
+		Serial.println("Error: write WTIME");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_PPULSE, DEFAULT_PROX_PPULSE) ) {
+		#if DEBUG
+		Serial.println("Error: write PPULSE");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_POFFSET_UR, DEFAULT_POFFSET_UR) ) {
+		#if DEBUG
+		Serial.println("Error: write POFFSET_UR");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_POFFSET_DL, DEFAULT_POFFSET_DL) ) {
+		#if DEBUG
+		Serial.println("Error: write POFFSET_DL");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_CONFIG1, DEFAULT_CONFIG1) ) {
+		#if DEBUG
+		Serial.println("Error: write CONFIG1");
+		#endif
         return false;
     }
     if( !setLEDDrive(DEFAULT_LDRIVE) ) {
+		#if DEBUG
+		Serial.println("Error: set led drive");
+		#endif
         return false;
     }
     if( !setProximityGain(DEFAULT_PGAIN) ) {
+		#if DEBUG
+		Serial.println("Error: set proximity gain");
+		#endif
         return false;
     }
     if( !setAmbientLightGain(DEFAULT_AGAIN) ) {
+		#if DEBUG
+		Serial.println("Error: set ambient light gain");
+		#endif
         return false;
     }
     if( !setProxIntLowThresh(DEFAULT_PILT) ) {
+		#if DEBUG
+		Serial.println("Error: set prox int LOW thresh");
+		#endif
         return false;
     }
     if( !setProxIntHighThresh(DEFAULT_PIHT) ) {
+		#if DEBUG
+		Serial.println("Error: set prox int HIGH thresh");
+		#endif
         return false;
     }
     if( !setLightIntLowThreshold(DEFAULT_AILT) ) {
+		#if DEBUG
+		Serial.println("Error: set light int LOW threshold");
+		#endif
         return false;
     }
     if( !setLightIntHighThreshold(DEFAULT_AIHT) ) {
+		#if DEBUG
+		Serial.println("Error: set light int HIGH threshold");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_PERS, DEFAULT_PERS) ) {
+		#if DEBUG
+		Serial.println("Error: write PERS");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_CONFIG2, DEFAULT_CONFIG2) ) {
+		#if DEBUG
+		Serial.println("Error: write CONFIG2");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_CONFIG3, DEFAULT_CONFIG3) ) {
+		#if DEBUG
+		Serial.println("Error: write CONFIG3");
+		#endif
         return false;
     }
     
     /* Set default values for gesture sense registers */
     if( !setGestureEnterThresh(DEFAULT_GPENTH) ) {
+		#if DEBUG
+		Serial.println("Error: set gesture enter thresh");
+		#endif
         return false;
     }
     if( !setGestureExitThresh(DEFAULT_GEXTH) ) {
+		#if DEBUG
+		Serial.println("Error: set gesture exit thresh");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_GCONF1, DEFAULT_GCONF1) ) {
+		#if DEBUG
+		Serial.println("Error: write GCONF1");
+		#endif
         return false;
     }
     if( !setGestureGain(DEFAULT_GGAIN) ) {
+		#if DEBUG
+		Serial.println("Error: set gesture gain");
+		#endif
         return false;
     }
     if( !setGestureLEDDrive(DEFAULT_GLDRIVE) ) {
+		#if DEBUG
+		Serial.println("Error: set gesture led drive");
+		#endif
         return false;
     }
     if( !setGestureWaitTime(DEFAULT_GWTIME) ) {
+		#if DEBUG
+		Serial.println("Error: set gesture wait time");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_GOFFSET_U, DEFAULT_GOFFSET) ) {
+		#if DEBUG
+		Serial.println("Error: write GOFFSET_U");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_GOFFSET_D, DEFAULT_GOFFSET) ) {
+		#if DEBUG
+		Serial.println("Error: write GOFFSET_D");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_GOFFSET_L, DEFAULT_GOFFSET) ) {
+		#if DEBUG
+		Serial.println("Error: write GOFFSET_L");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_GOFFSET_R, DEFAULT_GOFFSET) ) {
+		#if DEBUG
+		Serial.println("Error: write GOFFSET_R");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_GPULSE, DEFAULT_GPULSE) ) {
+		#if DEBUG
+		Serial.println("Error: write GPULSE");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_GCONF3, DEFAULT_GCONF3) ) {
+		#if DEBUG
+		Serial.println("Error: write GCONF3");
+		#endif
         return false;
     }
     if( !setGestureIntEnable(DEFAULT_GIEN) ) {
+		#if DEBUG
+		Serial.println("Error: set gesture int enable ");
+		#endif
         return false;
     }
     
@@ -195,6 +294,10 @@ bool APDS9960::init()
         Serial.println(val, HEX);
     }
 #endif
+
+	#if DEBUG
+	Serial.println("APDS inited!");
+	#endif
 
     return true;
 }
@@ -377,41 +480,77 @@ bool APDS9960::enableGestureSensor(bool interrupts)
        Set AUX to LED_BOOST_300
        Enable PON, WEN, PEN, GEN in ENABLE 
     */
+	#if DEBUG
+	Serial.println("APDS enable gesture sensor");
+	#endif
     resetGestureParameters();
     if( !wireWriteDataByte(APDS9960_WTIME, 0xFF) ) {
+		#if DEBUG
+		Serial.println("Error: write WTIME");
+		#endif
         return false;
     }
     if( !wireWriteDataByte(APDS9960_PPULSE, DEFAULT_GESTURE_PPULSE) ) {
+		#if DEBUG
+		Serial.println("Error: write PPULSE");
+		#endif
         return false;
     }
     if( !setLEDBoost(LED_BOOST_300) ) {
+		#if DEBUG
+		Serial.println("Error: set led boost 300");
+		#endif
         return false;
     }
     if( interrupts ) {
         if( !setGestureIntEnable(1) ) {
+			#if DEBUG
+			Serial.println("Error: int enable");
+			#endif
             return false;
         }
     } else {
         if( !setGestureIntEnable(0) ) {
+			#if DEBUG
+			Serial.println("Error: int disable");
+			#endif
             return false;
         }
     }
     if( !setGestureMode(1) ) {
+		#if DEBUG
+		Serial.println("Error: set mode 1");
+		#endif
         return false;
     }
     if( !enablePower() ){
+		#if DEBUG
+		Serial.println("Error: enable power");
+		#endif
         return false;
     }
     if( !setMode(WAIT, 1) ) {
+		#if DEBUG
+		Serial.println("Error: set mode WAIT");
+		#endif
         return false;
     }
     if( !setMode(PROXIMITY, 1) ) {
+		#if DEBUG
+		Serial.println("Error: set mode PROXIMITY");
+		#endif
         return false;
     }
     if( !setMode(GESTURE, 1) ) {
+		#if DEBUG
+		Serial.println("Error: set mode GESTURE");
+		#endif
         return false;
     }
     
+	#if DEBUG
+	Serial.println("APDS gesture enabled!");
+	#endif
     return true;
 }
 
@@ -481,7 +620,8 @@ int APDS9960::readGesture()
     }
     
     /* Keep looping as long as gesture data is valid */
-    while(1) {
+    while(1) 
+	{
     
         /* Wait some time to collect next batch of FIFO data */
         delay(FIFO_PAUSE_TIME);
@@ -2112,6 +2252,9 @@ bool APDS9960::wireWriteByte(uint8_t val)
     wire->beginTransmission(APDS9960_I2C_ADDR);
     wire->write(val);
 	error = wire->endTransmission();
+	#ifdef USE_WIRE_DELAY
+    delay(1);
+	#endif
     if( error != 0 ) {
 #if DEBUG
 	Serial.print("Wire error ");
@@ -2137,6 +2280,9 @@ bool APDS9960::wireWriteDataByte(uint8_t reg, uint8_t val)
     wire->write(reg);
     wire->write(val);
 	error = wire->endTransmission();
+	#ifdef USE_WIRE_DELAY
+    delay(1);
+    #endif
     if( error != 0 ) {
 #if DEBUG
 	Serial.print("Wire error ");
@@ -2169,6 +2315,9 @@ bool APDS9960::wireWriteDataBlock(  uint8_t reg,
         wire->beginTransmission(val[i]);
     }
     error = wire->endTransmission();
+	#ifdef USE_WIRE_DELAY
+    delay(1);
+    #endif
     if( error != 0 ) {
 #if DEBUG
 	Serial.print("Wire error ");

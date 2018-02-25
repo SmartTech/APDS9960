@@ -296,6 +296,8 @@ public:
     
 private:
 
+	//#define USE_WIRE_DELAY
+
 	#ifdef _WIREBASE_H_
 	WireBase* wire;
 	#else
